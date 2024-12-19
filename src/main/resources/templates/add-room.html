@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Dodaj Pokój</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="navbar">
+  <a href="/">Strona Główna</a> |
+  <a href="/guests/list">Goście</a> |
+  <a href="/rooms/manage">Pokoje</a> |
+  <a href="/reservations/manage">Rezerwacje</a> |
+  <a href="/reports">Raporty</a>
+</div>
+<div class="container">
+  <h1>Dodaj Nowy Pokój</h1>
+  <form th:action="@{/rooms/add}" method="post">
+    <label for="roomNumber">Numer Pokoju:</label>
+    <input type="number" id="roomNumber" name="roomNumber" required>
+
+    <label for="roomType">Typ Pokoju:</label>
+    <select id="roomType" name="roomTypeId" required>
+      <option value="" disabled selected>Wybierz typ pokoju</option>
+      <option th:each="type : ${roomTypes}" th:value="${type.roomTypeId}" th:text="${type.roomTypeName}">
+      </option>
+    </select>
+
+    <button type="submit" class="confirm-btn">Dodaj Pokój</button>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodaj Gościa</title>
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar">
+    <a href="/">Strona Główna</a> |
+    <a href="/guests/list">Goście</a> |
+    <a href="/rooms/manage">Pokoje</a> |
+    <a href="/reservations/manage">Rezerwacje</a> |
+    <a href="/reports">Raporty</a>
+</div>
+<div class="container">
+    <h1>Dodaj Gościa</h1>
+
+    <!-- Wyświetlanie komunikatu o błędzie -->
+    <div class="alert alert-danger" th:if="${errorMessage}">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- Wyświetlanie komunikatu sukcesu -->
+    <div class="alert alert-success" th:if="${successMessage}">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <form method="post" th:action="@{/guests/add}">
+        <label for="name">Imię:</label>
+        <input id="name" name="name" required type="text">
+
+        <label for="surname">Nazwisko:</label>
+        <input id="surname" name="surname" required type="text">
+
+        <label for="email">Email:</label>
+        <input id="email" name="email" type="email">
+
+        <label for="phoneNumber">Telefon:</label>
+        <input id="phoneNumber" name="phoneNumber" type="text">
+
+        <button type="submit">Dodaj</button>
+    </form>
+</div>
+</body>
+</html>

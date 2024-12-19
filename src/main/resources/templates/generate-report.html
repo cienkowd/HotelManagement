@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Generuj Raport Rezerwacji</title>
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar">
+  <a href="/">Strona Główna</a> |
+  <a href="/guests/list">Goście</a> |
+  <a href="/rooms/manage">Pokoje</a> |
+  <a href="/reservations/manage">Rezerwacje</a> |
+  <a href="/reports">Raporty</a>
+</div>
+<div class="container">
+  <h1>Generuj Raport Rezerwacji</h1>
+  <form th:action="@{/reports/generate}" method="get">
+    <!-- Filtrowanie po pokoju -->
+    <label for="roomId">Pokój:</label>
+    <select id="roomId" name="roomId">
+      <option value="" selected>Wszystkie pokoje</option>
+      <option th:each="room : ${rooms}" th:value="${room.roomId}" th:text="${room.roomNumber}"></option>
+    </select>
+
+    <!-- Filtrowanie po gościu -->
+    <label for="guestId">Gość:</label>
+    <select id="guestId" name="guestId">
+      <option value="" selected>Wszyscy goście</option>
+      <option th:each="guest : ${guests}" th:value="${guest.guestId}" th:text="${guest.name + ' ' + guest.surname}"></option>
+    </select>
+
+    <!-- Filtrowanie po okresie -->
+    <label for="startDate">Data początkowa:</label>
+    <input type="date" id="startDate" name="startDate">
+
+    <label for="endDate">Data końcowa:</label>
+    <input type="date" id="endDate" name="endDate">
+
+    <button type="submit" class="confirm-btn">Generuj Raport</button>
+  </form>
+</div>
+</body>
+</html>

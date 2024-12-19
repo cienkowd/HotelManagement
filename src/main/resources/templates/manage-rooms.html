@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pokoje</title>
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar">
+    <a href="/">Strona Główna</a> |
+    <a href="/guests/list">Goście</a> |
+    <a href="/rooms/manage">Pokoje</a> |
+    <a href="/reservations/manage">Rezerwacje</a> |
+    <a href="/reports">Raporty</a>
+</div>
+<div class="container">
+    <h1>Zarządzanie Pokojami</h1>
+
+    <!-- Komunikaty sukcesu -->
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Kafelki nad tabelą -->
+    <div class="tiles">
+        <a href="/rooms/add">
+            <div class="tile">
+                <h2>Dodaj pokój</h2>
+            </div>
+        </a>
+        <a href="/roomtypes/add">
+            <div class="tile">
+                <h2>Dodaj typ pokoju</h2>
+            </div>
+        </a>
+    </div>
+
+    <!-- Tabela z pokojami -->
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Numer Pokoju</th>
+            <th>Typ</th>
+            <th>Dostępność</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="room : ${rooms}">
+            <td th:text="${room.roomNumber}"></td>
+            <td th:text="${room.roomType.roomTypeName}"></td>
+            <td th:text="${room.availability ? 'Dostępny' : 'Zajęty'}"></td>
+            <td>
+                <div class="actions">
+                    <a th:href="@{/rooms/update/{id}(id=${room.roomId})}" class="edit-btn">Aktualizuj</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

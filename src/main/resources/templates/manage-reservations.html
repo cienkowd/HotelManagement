@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Zarządzanie Rezerwacjami</title>
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar">
+    <a href="/">Strona Główna</a> |
+    <a href="/guests/list">Goście</a> |
+    <a href="/rooms/manage">Pokoje</a> |
+    <a href="/reservations/manage">Rezerwacje</a> |
+    <a href="/reports">Raporty</a>
+</div>
+<div class="container">
+    <h1>Zarządzanie Rezerwacjami</h1>
+
+    <!-- Komunikaty sukcesu -->
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Komunikaty błędów -->
+    <div th:if="${errorMessage}" class="alert alert-error">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- Formularz filtrowania -->
+    <form th:action="@{/reservations/manage}" method="get">
+        <div class="filter-container">
+            <label for="guestId">Gość:</label>
+            <select id="guestId" name="guestId">
+                <option value="" selected>Wybierz gościa</option>
+                <option th:each="guest : ${guests}" th:value="${guest.guestId}" th:text="${guest.name + ' ' + guest.surname}"></option>
+            </select>
+
+            <label for="roomNumber">Numer Pokoju:</label>
+            <select id="roomNumber" name="roomNumber">
+                <option value="" selected>Wybierz pokój</option>
+                <option th:each="room : ${rooms}" th:value="${room.roomNumber}" th:text="${room.roomNumber}"></option>
+            </select>
+
+            <label for="checkInDate">Data Przyjazdu:</label>
+            <input type="date" id="checkInDate" name="checkInDate" th:value="${param.checkInDate}">
+
+            <label for="checkOutDate">Data Wyjazdu:</label>
+            <input type="date" id="checkOutDate" name="checkOutDate" th:value="${param.checkOutDate}">
+
+            <label for="reservationStatus">Status:</label>
+            <select id="reservationStatus" name="reservationStatus">
+                <option value="" selected>Wszystkie</option>
+                <option value="Potwierdzona" th:selected="${param.reservationStatus == 'Potwierdzona'}">Potwierdzona</option>
+                <option value="Oczekująca" th:selected="${param.reservationStatus == 'Oczekująca'}">Oczekująca</option>
+                <option value="Anulowana" th:selected="${param.reservationStatus == 'Anulowana'}">Anulowana</option>
+            </select>
+
+            <button type="submit" class="filter-btn">Filtruj</button>
+        </div>
+    </form>
+
+    <!-- Zastosowane filtry -->
+    <div class="applied-filters"
+         th:if="${param.guestId != null or param.roomNumber != null or param.checkInDate != null or param.checkOutDate != null or param.reservationStatus != null}">
+        <h3>Zastosowane Filtry:</h3>
+        <ul>
+            <li th:if="${filteredGuestName != null}" th:text="'Gość: ' + ${filteredGuestName}"></li>
+            <li th:if="${param.roomNumber != null}" th:text="'Numer pokoju: ' + ${param.roomNumber}"></li>
+            <li th:if="${param.checkInDate != null}" th:text="'Data przyjazdu od: ' + ${param.checkInDate}"></li>
+            <li th:if="${param.checkOutDate != null}" th:text="'Data wyjazdu do: ' + ${param.checkOutDate}"></li>
+            <li th:if="${param.reservationStatus != null}" th:text="'Status: ' + ${param.reservationStatus}"></li>
+        </ul>
+    </div>
+
+    <!-- Kafelki nad tabelą -->
+    <div class="tiles">
+        <a href="/reservations/add">
+            <div class="tile">
+                <h2>Dodaj Rezerwację</h2>
+            </div>
+        </a>
+    </div>
+
+    <!-- Tabela z rezerwacjami -->
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Gość</th>
+            <th>Pokój</th>
+            <th>Data Przyjazdu</th>
+            <th>Data Wyjazdu</th>
+            <th>Status</th>
+            <th>Opcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reservation : ${reservations}">
+            <td th:text="${reservation.guest.name + ' ' + reservation.guest.surname}"></td>
+            <td th:text="${reservation.room != null ? reservation.room.roomNumber : 'Brak'}"></td>
+            <td th:text="${reservation.checkInDate.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd'))}"></td>
+            <td th:text="${reservation.checkOutDate.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd'))}"></td>
+            <td th:text="${reservation.reservationStatus}"></td>
+            <td>
+                <a th:href="@{/reservations/edit/{id}(id=${reservation.reservationId})}" class="edit-btn">Edytuj</a>
+                <a th:href="@{/reservations/delete/{id}(id=${reservation.reservationId})}" class="delete-btn">Usuń</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

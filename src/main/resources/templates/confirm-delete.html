@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="navbar">
+  <a href="/">Strona Główna</a> |
+  <a href="/guests/list">Goście</a> |
+  <a href="/rooms/manage">Pokoje</a> |
+  <a href="/reservations/manage">Rezerwacje</a> |
+  <a href="/reports">Raporty</a>
+</div>
+<div class="container">
+  <h1>Potwierdzenie Usunięcia</h1>
+  <p>Czy na pewno chcesz usunąć gościa:</p>
+  <p><strong th:text="${guest.name} + ' ' + ${guest.surname}"></strong>?</p>
+
+  <form th:action="@{/guests/delete/{id}(id=${guest.guestId})}" method="post">
+    <button class="confirm-btn" type="submit">Potwierdź</button>
+    <a href="/guests/list" class="cancel-btn">Anuluj</a>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edytuj Rezerwację</title>
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar">
+    <a href="/">Strona Główna</a> |
+    <a href="/guests/list">Goście</a> |
+    <a href="/rooms/manage">Pokoje</a> |
+    <a href="/reservations/manage">Rezerwacje</a> |
+    <a href="/reports">Raporty</a>
+</div>
+<div class="container">
+    <h1>Edytuj Rezerwację</h1>
+    <form th:action="@{/reservations/edit/{id}(id=${reservation.reservationId})}" method="post">
+        <!-- Gość -->
+        <label for="guestId">Gość:</label>
+        <select id="guestId" name="guestId" required>
+            <option value="" disabled>Wybierz gościa</option>
+            <option th:each="guest : ${guests}" th:value="${guest.guestId}"
+                    th:selected="${reservation.guest.guestId == guest.guestId}"
+                    th:text="${guest.name + ' ' + guest.surname}">
+            </option>
+        </select>
+
+        <!-- Data przyjazdu -->
+        <label for="checkInDate">Data Przyjazdu:</label>
+        <input type="date" id="checkInDate" name="checkInDate"
+               th:value="${reservation.checkInDate}" required>
+
+        <!-- Data wyjazdu -->
+        <label for="checkOutDate">Data Wyjazdu:</label>
+        <input type="date" id="checkOutDate" name="checkOutDate"
+               th:value="${reservation.checkOutDate}" required>
+
+        <!-- Status -->
+        <label for="reservationStatus">Status:</label>
+        <select id="reservationStatus" name="reservationStatus" required>
+            <option value="Potwierdzona" th:selected="${reservation.reservationStatus == 'Potwierdzona'}">Potwierdzona</option>
+            <option value="Oczekująca" th:selected="${reservation.reservationStatus == 'Oczekująca'}">Oczekująca</option>
+            <option value="Anulowana" th:selected="${reservation.reservationStatus == 'Anulowana'}">Anulowana</option>
+        </select>
+
+        <!-- Zapisz -->
+        <button type="submit" class="confirm-btn">Zapisz</button>
+    </form>
+</div>
+</body>
+</html>

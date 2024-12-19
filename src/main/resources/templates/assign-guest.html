@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Przypisz Gościa</title>
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar">
+  <a href="/">Strona Główna</a> |
+  <a href="/guests/list">Goście</a> |
+  <a href="/rooms/manage">Pokoje</a> |
+  <a href="/reservations/manage">Rezerwacje</a> |
+  <a href="/reports">Raporty</a>
+</div>
+<div class="container">
+  <h1>Przypisz Gościa do Pokoju</h1>
+  <form th:action="@{/rooms/assign/{id}(id=${room.roomId})}" method="post">
+    <label for="guest">Wybierz Gościa:</label>
+    <select id="guest" name="guestId">
+      <option th:each="guest : ${guests}" th:value="${guest.guestId}" th:text="${guest.name + ' ' + guest.surname}"></option>
+    </select>
+    <button class="confirm-btn" type="submit">Przypisz</button>
+  </form>
+</div>
+</body>
+</html>

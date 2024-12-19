@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodaj Rezerwację</title>
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar">
+    <a href="/">Strona Główna</a> |
+    <a href="/guests/list">Goście</a> |
+    <a href="/rooms/manage">Pokoje</a> |
+    <a href="/reservations/manage">Rezerwacje</a> |
+    <a href="/reports">Raporty</a>
+</div>
+<div class="container">
+    <h1>Dodaj Nową Rezerwację</h1>
+    <form th:action="@{/reservations/add}" method="post">
+        <label for="guestId">Gość:</label>
+        <select id="guestId" name="guestId" required>
+            <option value="" disabled selected>Wybierz gościa</option>
+            <option th:each="guest : ${guests}" th:value="${guest.guestId}" th:text="${guest.name + ' ' + guest.surname}">
+            </option>
+        </select>
+
+        <label for="roomId">Pokój:</label>
+        <select id="roomId" name="roomId" required>
+            <option value="" disabled selected>Wybierz pokój</option>
+            <option th:each="room : ${availableRooms}" th:value="${room.roomId}" th:text="${room.roomNumber}">
+            </option>
+        </select>
+
+        <label for="checkInDate">Data Przyjazdu:</label>
+        <input type="date" id="checkInDate" name="checkInDate" required>
+
+        <label for="checkOutDate">Data Wyjazdu:</label>
+        <input type="date" id="checkOutDate" name="checkOutDate" required>
+
+        <label for="reservationStatus">Status Rezerwacji:</label>
+        <select id="reservationStatus" name="reservationStatus" required>
+            <option value="" disabled selected>Wybierz status</option>
+            <option value="Potwierdzona">Potwierdzona</option>
+            <option value="Oczekująca">Oczekująca</option>
+            <option value="Anulowana">Anulowana</option>
+        </select>
+
+        <button type="submit" class="confirm-btn">Dodaj Rezerwację</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Wyniki Raportu</title>
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar">
+  <a href="/">Strona Główna</a> |
+  <a href="/guests/list">Goście</a> |
+  <a href="/rooms/manage">Pokoje</a> |
+  <a href="/reservations/manage">Rezerwacje</a> |
+  <a href="/reports">Raporty</a>
+</div>
+<div class="container">
+  <h1>Wyniki Raportu</h1>
+  <table class="styled-table">
+    <thead>
+    <tr>
+      <th>Gość</th>
+      <th>Pokój</th>
+      <th>Data Przyjazdu</th>
+      <th>Data Wyjazdu</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation : ${reservations}">
+      <td th:text="${reservation.guest.name + ' ' + reservation.guest.surname}"></td>
+      <td th:text="${reservation.room != null ? reservation.room.roomNumber : 'Brak'}"></td>
+      <td th:text="${reservation.checkInDate}"></td>
+      <td th:text="${reservation.checkOutDate}"></td>
+      <td th:text="${reservation.reservationStatus}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
